@@ -10,7 +10,7 @@
       <div class="card-header">{{ key }}</div>
       <div class="card-body">
         <label>Data Type</label>
-        <select [(ngModel)]="dataTypes[key]">
+        <select [(ngModel)]="dataTypes[key]" (change)="onDataTypeChange(key)">
           <option *ngFor="let option of dropdownOptions" [value]="option">
             {{ option }}
           </option>
@@ -33,7 +33,12 @@
           <label>Max:</label>
           <input type="number" [(ngModel)]="numberRange[key].max" />
         </div>
-
+        <div *ngIf="dataTypes[key] === 'date'" class="input-group">
+          <label>Start Date:</label>
+          <input type="date" [(ngModel)]="dateValues[key].startDate" />
+          <label>End Date:</label>
+          <input type="date" [(ngModel)]="dateValues[key].endDate" />
+        </div>
       </div>
     </div>
   </div>
