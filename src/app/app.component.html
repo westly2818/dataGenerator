@@ -43,4 +43,8 @@
     </div>
   </div>
   <button (click)="generateData()">Generate</button>
+  <div *ngIf="generatedData.length">
+    <h3>Generated JSON Data:</h3>
+    <pre>{{ generatedData | json }}</pre>
+  </div>
 </div>

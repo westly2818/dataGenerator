@@ -15,6 +15,7 @@ export class AppComponent {
   stringRandomValues: { [key: string]: number } = {};
   numberRange: { [key: string]: { min: number; max: number } } = {};
   dateValues: { [key: string]: any } = {};
+  generatedData: any = []
   processJson() {
     try {
       this.formattedJson = JSON.parse(this.jsonInput);
@@ -138,8 +139,7 @@ export class AppComponent {
 
       generateData.push(temp);
     }
-
-    console.log(generateData);
+    this.generatedData = generateData
   }
 
   // Helper functions
