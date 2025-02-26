@@ -102,8 +102,9 @@
   <button (click)="generateData()" class="btn generate-btn">Generate</button>
   <div *ngIf="generatedData.length" class="output-container">
     <h3>Generated JSON Data:</h3>
-    <pre class="json-output">{{ generatedData | json }}</pre>
     <button (click)="copyToClipboard()" class="btn copy-btn">Copy JSON</button>
     <span *ngIf="copySuccess" class="copy-message">✔ Copied!</span>
+    <pre class="json-output">{{ generatedData | json }}</pre>
+
   </div>
 </div>

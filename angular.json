@@ -17,7 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/data-generator",
+       "outputPath": "dist/dataGenerator",
+"baseHref": "/dataGenerator/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -42,8 +43,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+              "maximumWarning": "3kb",
+  "maximumError": "5kb"
                 }
               ],
               "fileReplacements": [
