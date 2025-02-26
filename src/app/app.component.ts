@@ -21,6 +21,7 @@ export class AppComponent {
   copySuccess: boolean = false;
   invalidField: string | null = null;
   invalidFields: Set<string> = new Set();
+  searchText: any = ''
   processJson() {
     try {
       this.formattedJson = JSON.parse(this.jsonInput);
@@ -235,4 +236,13 @@ export class AppComponent {
       }, 2000);
     });
   }
+  get filteredKeys(): string[] {
+    if (!this.searchText) {
+      return Object.keys(this.dataTypes); // Return all fields if search is empty
+    }
+    return Object.keys(this.dataTypes).filter(field =>
+      field.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
 }

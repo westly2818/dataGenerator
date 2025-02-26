@@ -9,8 +9,11 @@
       <button (click)="processJson()" class="btn process-btn">Process</button>
     </div>
   </div>
+  <div class="search-container">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search field..." class="search-input">
+  </div>
   <div class="card-container">
-    <div class="card" *ngFor="let key of objectKeys(dataTypes)" [ngClass]="{ 'blink-error': invalidFields.has(key) }">
+    <div class="card" *ngFor="let key of filteredKeys" [ngClass]="{ 'blink-error': invalidFields.has(key) }">
       <div class="card-header">{{ key }}</div>
       <div class="card-body">
         <label>Data Type</label>
