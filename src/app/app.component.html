@@ -1,5 +1,5 @@
 <div class="container">
-  <h2 class="header">Mock Data Creator</h2>
+  <h2 class="header">Mock Data Generator</h2>
 
   <div style="margin: 15px;">
     <div>
@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="card-container">
-    <div class="card" *ngFor="let key of objectKeys(dataTypes)">
+    <div class="card" *ngFor="let key of objectKeys(dataTypes)" [ngClass]="{ 'blink-error': invalidFields.has(key) }">
       <div class="card-header">{{ key }}</div>
       <div class="card-body">
         <label>Data Type</label>
@@ -50,7 +50,7 @@
   </div>
 
   <div style="margin: 15px;">
-    <label>No. of Data to Generate:</label>
+    <label style="margin: 15px;"> No. of Data to Generate:</label>
     <input style="width: 35px;" type="number" [(ngModel)]="numOfEntries" class="input-field" />
   </div>
 

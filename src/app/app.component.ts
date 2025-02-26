@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,8 @@ export class AppComponent {
   generatedData: any = []
   numOfEntries: any = 10
   copySuccess: boolean = false;
+  invalidField: string | null = null;
+  invalidFields: Set<string> = new Set();
   processJson() {
     try {
       this.formattedJson = JSON.parse(this.jsonInput);
@@ -33,6 +36,15 @@ export class AppComponent {
             this.numberRange[key] = { min: 10, max: 100 };
           }
         }
+        else if (this.dataTypes[key] === 'date') {
+          // ✅ Ensure object initialization to avoid undefined errors
+          this.dateValues[key] = Object.assign({}, this.dateValues[key], {
+            startDate: moment().startOf('day').toDate(),
+            endDate: moment().toDate(),
+          });
+          this.dateValues[key].startDate = moment().startOf('day').format('YYYY-MM-DD');
+          this.dateValues[key].endDate = moment().format('YYYY-MM-DD');
+        }
 
       }
     } catch (error) {
@@ -47,56 +59,93 @@ export class AppComponent {
   getDataTypes(obj: any): { [key: string]: string } {
     let types: { [key: string]: string } = {};
 
+    const isDate = (value: any): boolean => {
+      if (!value || typeof value !== 'string') return false;
+
+      const datePatterns = [
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/,  // "2025-01-23T06:17:34"
+        /^\d{2}-\d{2}\d{4}$/,                     // "01-012025"
+        /^\d{2}-\d{2}\d{4} \d{2}:\d{2}:\d{2}$/    // "01-012025 00:00:11"
+      ];
+
+      return datePatterns.some(pattern => pattern.test(value));
+    };
+
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-          types[key] = obj[key].$date ? 'Date' : 'Object';
+        const value = obj[key];
+
+        if (typeof value === 'object' && value !== null) {
+          types[key] = value.$date ? 'Date' : 'Object';
+        } else if (typeof value === 'string' && isDate(value)) {
+          types[key] = 'date';
         } else {
-          types[key] = typeof obj[key];
+          types[key] = typeof value;
         }
       }
     }
 
     return types;
   }
+
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
   generateData() {
-
-    let obj = {
-      "name": {
-        "dataType": "string", "customInput": 5, "clientInput": ['david', 'latchu']
-      },
-      "tag_name": {
-        "dataType": "string", "customInput": 2, "clientInput": ["SPR_22", "Vibsum", "Fke_2"]
-      },
-      "timestamp": {
-        "dataType": "timestamp", "startDate": "2025-02-18 00:00:00", "endDate": "2025-02-18 00:10:00"
-      },
-      "tag_value": {
-        "dataType": "number", "min": 5, "max": 20
-      },
-    };
-
+    this.invalidField = null;
+    this.invalidFields.clear();
     let prepareObj: any = {}
 
     for (let ele in this.dataTypes) {
       prepareObj[ele] = {}
       if (this.dataTypes[ele] == 'string') {
-        prepareObj[ele] = {
-          "dataType": "string", "defaultInput": this.stringRandomValues[ele], "customInput": this.customStringValues[ele].split(',').filter(val => val.trim() !== '')
+        const defaultInput = this.stringRandomValues[ele];
+        const customInput = this.customStringValues[ele]?.split(',').filter(val => val.trim() !== '');
+
+        if (!defaultInput && (!customInput || customInput.length === 0)) {
+          alert(`Error: String field "${ele}" must have either a default or custom input.`);
+          this.invalidFields.add(ele); // Mark this field as invalid
+          continue;
         }
+        prepareObj[ele] = {
+          "dataType": "string",
+          "defaultInput": defaultInput,
+          "customInput": customInput
+        };
       }
       if (this.dataTypes[ele] == 'number') {
-        prepareObj[ele] = {
-          "dataType": "number", "min": this.numberRange[ele].min, "max": this.numberRange[ele].max
+        const min = this.numberRange[ele]?.min;
+        const max = this.numberRange[ele]?.max;
+
+        // Validation: Min and Max should be valid numbers
+        if (min === undefined || max === undefined || min > max) {
+          alert(`Error: Number field "${ele}" must have a valid min and max range.`);
+          this.invalidFields.add(ele); // Mark this field as invalid
+          continue;
         }
+
+        prepareObj[ele] = {
+          "dataType": "number",
+          "min": min,
+          "max": max
+        };
       }
       if (this.dataTypes[ele] == 'date') {
-        prepareObj[ele] = {
-          "dataType": "date", "startDate": this.dateValues[ele].startDate, "endDate": this.dateValues[ele].endDate
+        const startDate = this.dateValues[ele]?.startDate;
+        const endDate = this.dateValues[ele]?.endDate;
+
+        // Validation: Start and End Dates must be provided
+        if (!startDate || !endDate) {
+          alert(`Error: Date field "${ele}" requires both Start Date and End Date.`);
+          this.invalidFields.add(ele); // Mark this field as invalid
+          continue;
         }
+
+        prepareObj[ele] = {
+          "dataType": "date",
+          "startDate": startDate,
+          "endDate": endDate
+        };
       }
     }
     console.log(prepareObj);
