@@ -1,5 +1,5 @@
-<div class="container">
-  <h2>JSON Data Type Editor</h2>
+<!-- <div class="container">
+  <h2>Mock Data Creator</h2>
 
   <textarea [(ngModel)]="jsonInput" rows="8" placeholder="Paste JSON here..."></textarea>
   <br>
@@ -16,7 +16,7 @@
           </option>
         </select>
 
-        <!-- Additional Inputs for "string" type -->
+      
         <div *ngIf="dataTypes[key] === 'string'" class="input-group">
           <label>No. of Random Values:</label>
           <input type="number" [(ngModel)]="stringRandomValues[key]" min="1" />
@@ -25,8 +25,7 @@
           <input type="text" [(ngModel)]="customStringValues[key]" placeholder="e.g., asset1, asset2" />
         </div>
 
-        <!-- Additional Inputs for "number" type -->
-        <!-- Input for "number" type -->
+      
         <div *ngIf="dataTypes[key] === 'number'" class="input-group">
           <label>Min:</label>
           <input type="number" [(ngModel)]="numberRange[key].min" />
@@ -42,9 +41,69 @@
       </div>
     </div>
   </div>
+  <label>No. of Data to Generate:</label>
+  <input type="number" [(ngModel)]="numOfEntries" />
   <button (click)="generateData()">Generate</button>
   <div *ngIf="generatedData.length">
     <h3>Generated JSON Data:</h3>
     <pre>{{ generatedData | json }}</pre>
+  </div>
+</div> -->
+
+<div class="container">
+  <h2>Mock Data Creator</h2>
+
+  <textarea [(ngModel)]="jsonInput" rows="6" class="json-input" placeholder="Paste JSON here..."></textarea>
+  <button (click)="processJson()" class="btn process-btn">Process</button>
+
+  <div class="card-container">
+    <div class="card" *ngFor="let key of objectKeys(dataTypes)">
+      <div class="card-header">{{ key }}</div>
+      <div class="card-body">
+        <label>Data Type</label>
+        <select [(ngModel)]="dataTypes[key]" (change)="onDataTypeChange(key)" class="dropdown">
+          <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
+        </select>
+
+        <!-- String Type -->
+        <div *ngIf="dataTypes[key] === 'string'" class="input-group">
+          <label>No. of Random Values:</label>
+          <input type="number" [(ngModel)]="stringRandomValues[key]" min="1" class="input-field" />
+
+          <label>Custom Input:</label>
+          <input type="text" [(ngModel)]="customStringValues[key]" placeholder="e.g., asset1, asset2"
+            class="input-field" />
+        </div>
+
+        <!-- Number Type -->
+        <div *ngIf="dataTypes[key] === 'number'" class="input-group">
+          <label>Min:</label>
+          <input type="number" [(ngModel)]="numberRange[key].min" class="input-field" />
+
+          <label>Max:</label>
+          <input type="number" [(ngModel)]="numberRange[key].max" class="input-field" />
+        </div>
+
+        <!-- Date Type -->
+        <div *ngIf="dataTypes[key] === 'date'" class="input-group">
+          <label>Start Date:</label>
+          <input type="date" [(ngModel)]="dateValues[key].startDate" class="input-field" />
+
+          <label>End Date:</label>
+          <input type="date" [(ngModel)]="dateValues[key].endDate" class="input-field" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <label>No. of Data to Generate:</label>
+  <input type="number" [(ngModel)]="numOfEntries" class="input-field" />
+
+  <button (click)="generateData()" class="btn generate-btn">Generate</button>
+  <div *ngIf="generatedData.length" class="output-container">
+    <h3>Generated JSON Data:</h3>
+    <pre class="json-output">{{ generatedData | json }}</pre>
+    <button (click)="copyToClipboard()" class="btn copy-btn">Copy JSON</button>
+    <span *ngIf="copySuccess" class="copy-message">✔ Copied!</span>
   </div>
 </div>

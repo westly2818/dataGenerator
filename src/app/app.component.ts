@@ -16,6 +16,8 @@ export class AppComponent {
   numberRange: { [key: string]: { min: number; max: number } } = {};
   dateValues: { [key: string]: any } = {};
   generatedData: any = []
+  numOfEntries: any = 10
+  copySuccess: boolean = false;
   processJson() {
     try {
       this.formattedJson = JSON.parse(this.jsonInput);
@@ -109,7 +111,7 @@ export class AppComponent {
   }
 
   prepareDummyData(req: any) {
-    const NoOfDataToGenerate = 20;
+    const NoOfDataToGenerate = this.numOfEntries;
     const generateData = [];
 
     for (let i = 0; i < NoOfDataToGenerate; i++) {
@@ -175,5 +177,13 @@ export class AppComponent {
       this.dateValues[key] = { startDate: '', endDate: '' }; // Initialize date field
     }
   }
-
+  copyToClipboard(): void {
+    const jsonString = JSON.stringify(this.generatedData, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+      this.copySuccess = true;
+      setTimeout(() => {
+        this.copySuccess = false;
+      }, 2000);
+    });
+  }
 }

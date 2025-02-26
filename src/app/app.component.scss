@@ -1,5 +1,5 @@
 .container {
-    max-width: 600px;
+    // max-width: 600px;
     margin: auto;
     text-align: center;
   }
@@ -77,3 +77,147 @@
     margin-top: 5px;
   }
   
+  /* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Main Container */
+.container {
+  background: #ffffff;
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Headings */
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* JSON Input */
+.json-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+/* Card Layout */
+.card-container {
+  margin-top: 20px;
+}
+
+.card {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* Dropdown Styling */
+.dropdown {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Input Fields */
+.input-group {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.process-btn {
+  background: #007bff;
+  color: white;
+}
+
+.process-btn:hover {
+  background: #0056b3;
+}
+
+.generate-btn {
+  background: #28a745;
+  color: white;
+}
+
+.generate-btn:hover {
+  background: #218838;
+}
+
+/* Output Section */
+.output-container {
+  background: #f3f3f3;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.json-output {
+  background: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+
+.copy-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.copy-btn:hover {
+  background: #495057;
+}
+
+/* Copy Success Message */
+.copy-message {
+  display: block;
+  color: green;
+  margin-top: 5px;
+  font-weight: bold;
+}
