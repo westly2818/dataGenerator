@@ -226,6 +226,15 @@ export class AppComponent {
     if (this.dataTypes[key] === 'date' && !this.dateValues[key]) {
       this.dateValues[key] = { startDate: '', endDate: '' }; // Initialize date field
     }
+    else if (this.dataTypes[key] === 'number') {
+      if (!this.numberRange[key]) {
+        this.numberRange[key] = { min: 10, max: 100 };
+      }
+    }
+    else if (this.dataTypes[key] === 'string') {
+      this.stringRandomValues[key] = 3;
+      this.customStringValues[key] = '';
+    }
   }
   copyToClipboard(): void {
     const jsonString = JSON.stringify(this.generatedData, null, 2);
