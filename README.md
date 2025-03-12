@@ -4,7 +4,7 @@ This project was generated with Angular CLI version 14.2.13.
 
 Live Demo
 
-Check out the application here: DataGenerator
+Check out the application here: https://westly2818.github.io/dataGenerator/
 
 Development Server
 
